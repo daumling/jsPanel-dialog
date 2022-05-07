@@ -1,0 +1,130 @@
+:root {
+	--modal-top-offset: 50px;
+}
+
+/* Adaptation: a simple white box with rounded corners */
+
+.jsPanel-modal {
+	border-radius: 0.25rem;
+	padding: 1rem;
+	min-width: 400px;
+	margin-top: var(--modal-top-offset);
+	max-height: calc(90vh - var(--modal-top-offset));
+}
+
+.jsPanel-dialog .jsPanel-content {
+	display: flex;
+	flex-direction: column;
+	overflow: hidden;
+}
+
+.jsPanel-dialog .buttonbar {	
+	margin-top: 10px;
+	padding-top: 10px;
+	border-top: 1px solid #ccc;
+	width: 100%;
+	display: flex;
+	justify-content: right;
+}
+.jsPanel-dialog .buttonbar button {
+	margin-left: 0.5rem;
+}
+
+.jsPanel-modal.background {
+	opacity: 0.3 !important;
+}
+
+/* Dialog sizes */
+
+.dialog-sm, .dialog-md, .dialog-lg, .dialog-xl {
+	max-height: calc(90vh - var(--modal-top-offset));
+	overflow: hidden auto;
+	margin: 0 auto;
+}
+
+.dialog-sm {
+	width: 400px;
+}
+.dialog-md {
+	width: 600px;
+}
+.dialog-lg {
+	width: 800px;
+}
+.dialog-xl {
+	width: 1000px;
+}
+
+@media (max-width: 767px) {
+	.dialog-md, .dialog-lg, .dialog-xl {
+	  	width: 90vw;
+	}
+}
+@media (max-width: 991px) {
+	.dialog-lg, .dialog-xl {
+		width: 90vw;
+	}
+}
+@media (max-width: 1199px) {
+	.dialog-xl {
+		width: 90vw;
+	}
+}
+
+/* A few button colors */
+
+button.blue {
+    color: #fff !important;
+    background-color: #0d6efd !important;
+    border-color: #0d6efd !important;
+}
+button.gray {
+    color: #fff;
+    background-color: #6c757d;
+    border-color: #6c757d;
+}
+button.white {
+    color: #333 !important;
+    background-color: #fff !important; 
+}
+button.lightblue {
+    color: #000 !important;
+    background-color: #0dcaf0 !important;
+    border-color: #0dcaf0 !important;
+}
+button.yellow {
+    color: #000 !important;
+    background-color: #ffc107 !important;
+    border-color: #ffc107 !important;
+}
+button.red {
+    color: #fff !important;
+    background-color: #dc3545 !important;
+    border-color: #dc3545 !important;
+}
+button.green {
+    color: #fff !important;
+    background-color: #198754;
+    border-color: #198754;
+}
+
+input:disabled, input[readonly] {
+	cursor: not-allowed !important;
+	background-color: #eee !important;
+}
+
+/* Radio buttons and checkboxes, followed by a span */
+
+input[type="checkbox"], input[type="radio"] {
+	vertical-align: middle;
+	margin: 0 0.5rem 0 0;
+}
+
+input[type="radio"] {
+	margin-bottom: 2px;
+}
+
+input:disabled+span {
+	opacity: 0.4;
+	cursor: not-allowed;
+}
