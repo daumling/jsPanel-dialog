@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" dir="ltr">
+
+<head>
+    <meta charset="UTF-8" />
+    <script src="jsPanel.min.js"></script>
+    <script src="jsPanel.modal.min.js"></script>
+    <link rel="stylesheet" href="jsPanel.min.css" />
+    <script src="jsPanel.dialog.js"></script>
+    <link rel="stylesheet" href="jsPanel.dialog.css" />
+    <style>
+        #logon {
+            display: flex;
+            flex-direction: column;
+            row-gap: 10px;
+        }
+        #logon [name="message"] {
+            font-size: smaller;
+            color: red;
+        }
+        button:disabled {
+            cursor: not-allowed;
+            pointer-events: none;
+            opacity: .5;
+        }
+    </style>
+</head>
+
+<body>
+    <template id="dialogs">
+        <div id="logon" class="dialog-sm">
+            <h2>Please Log On</h2>
+            User name:
+            <input type="text" name="user" placeholder="Letters and digits only" />
+            <br/>
+            Password:
+            <input type="password" name="pass" placeholder="At least one letter and digit" />
+            <p name="message" style="display: none"></p>
+            <div class="buttonbar">
+                <button name="logon" class="primary" disabled>Log On</button>
+                <button name="info" class="info">More info...</button>
+            </div>
+        </div>
+        <div id="moreinfo" class="dialog-sm">
+            <h2>More Information</h2>
+            <hr/>
+            <p>
+                Please enter your username and password. Use only the letters A-Z and digits.
+                To test this page, enter "admin" as name and "admin123" password.
+            </p>
+        </div>
+    </template>
+    <script>
+        function check(panel) {
+            // Check if the username is alphanumeric and the
+            // password contains at least a letter and a digit.
+            // Enable the Log On button if OK.
+            panel.dialog.elements.message.style.display = "none";
+            const user = panel.dialog.values.user;
+            const pass = panel.dialog.values.pass;
+            panel.dialog.elements.logon.disabled =
+               !(/^[a-zA-Z0-9]+$/.test(user) 
+              && /[a-zA-Z]+/.test(pass) && /[0-9]+/.test(pass));
+        }
+        async function doLogon(data) {
+            // Assume the logon failed for users other than "admin123"
+            return (data.user =="admin" && data.pass == "admin123");
+        }
+        async function logon() {
+            const ok = await jsPanel.dialog.modal("#logon", {
+                oninput_user: panel => check(panel),
+                oninput_pass: panel => check(panel),
+                onclick_info: panel => jsPanel.dialog.alert("#moreinfo"),
+                onclick_logon: async panel => {
+                    if (await doLogon(panel.dialog.values.get())) {
+                        panel.dialog.value = true;
+                        panel.close();
+                    }
+                    panel.dialog.values.message = "Logon failed, sorry."
+                    panel.dialog.elements.message.style.display = "";
+                    panel.dialog.value = false;
+                }
+            });
+            if (ok)
+               await jsPanel.dialog.confirm("You logged on successfully. Did you like it?");
+        }
+        document.addEventListener("DOMContentLoaded", ev => logon());
+    </script>
+</body>
+</html>
