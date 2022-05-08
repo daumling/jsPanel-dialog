@@ -9,7 +9,7 @@ if (!jsPanel.dialog) {
 			header: false,
 			position: {my:'center-top', at:'center-top', offsetY: 30},
 			contentSize: "auto",
-			closeOnEscape: [],
+			closeOnEscape: false,
 			closeOnBackdrop: false,
 			oninitialize: []
 		},
@@ -54,28 +54,7 @@ if (!jsPanel.dialog) {
 		 * @returns {*} any value returned by a handler, or the value of the last clicked element
 		 */
 		async modal(html, options = {}) {
-			if (!(html instanceof Node)) {
-				html = html.toString().trim();
-				try {
-					let el = document.querySelector(html);
-					if (!el) {
-						const tpl = document.querySelector(jsPanel.dialog.dialogTemplateId);
-						if (tpl)
-							el = tpl.content.querySelector(html);
-					}
-					if (el)
-						html = el.cloneNode(true);
-				}
-				catch (e) {
-					html = jsPanel.strToHtml(html.toString().trim());
-				}
-			}
-			// We do not want any double ID after cloning in case you used an ID to find the dialog
-			if (html instanceof HTMLElement) {
-				html.removeAttribute("id");
-				// ensure its visibility
-				html.style.display = "";
-			}
+			html = this.helpers.getHTML(html);
 			options = Object.assign({}, this.defaults, options);
 			options.content = html;
 			const prev = this.active;
@@ -160,7 +139,7 @@ if (!jsPanel.dialog) {
 		 * @returns {string} the button value
 		 */
 		async alert(msg, buttons = ["OK"], options = {}) {
-			msg = jsPanel.strToHtml(msg);
+			msg = this.helpers.getHTML(msg);
 			if (!buttons.length)
 				buttons.push("OK");
 			msg.append(this.helpers.buttonBar(buttons));
@@ -244,6 +223,34 @@ if (!jsPanel.dialog) {
 				}
 				div.innerHTML = html;
 				return div;
+			},
+
+			/**
+			 * Get the HTML to display - see modal() above and make sure it is visible.
+			 * @param {Node|string} html 
+			 * @returns {Node}
+			 */
+			getHTML(html) {
+				if (!(html instanceof Node)) {
+					html = html.toString().trim();
+					try {
+						let el = document.querySelector(html);
+						if (!el) {
+							const tpl = document.querySelector(jsPanel.dialog.dialogTemplateId);
+							if (tpl)
+								el = tpl.content.querySelector(html);
+						}
+						if (el)
+							html = el.cloneNode(true);
+					}
+					catch (e) {
+						html = jsPanel.strToHtml(html.toString().trim());
+					}
+				}
+				if (html instanceof HTMLElement)
+					// ensure its visibility
+					html.style.display = "";
+				return html;	
 			},
 
 			/**
@@ -394,7 +401,7 @@ if (!jsPanel.dialog) {
 					const name = el ? el.getAttribute("name") : "";
 					const cbName = `on${ev.type}_${name}`;
 					if (this.options[cbName])
-						jsPanel.processCallbacks(this. this.options[cbName], "every");
+						jsPanel.processCallbacks(this, this.options[cbName], "every", ev);
 				}
 				else
 					el = ev.target;

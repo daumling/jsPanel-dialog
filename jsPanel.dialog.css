@@ -2,7 +2,7 @@
 	--modal-top-offset: 50px;
 }
 
-/* Adaptation: a simple white box with rounded corners */
+/* Dialog adaptation: a simple white box with rounded corners */
 
 .jsPanel-modal {
 	border-radius: 0.25rem;
@@ -30,6 +30,7 @@
 	margin-left: 0.5rem;
 }
 
+/* Modals in the background are partly transparent */
 .jsPanel-modal.background {
 	opacity: 0.3 !important;
 }
@@ -73,39 +74,39 @@
 
 /* A few button colors */
 
-button.blue {
+button.blue, button.info {
     color: #fff !important;
-    background-color: #0d6efd !important;
-    border-color: #0d6efd !important;
+    background-color: #039be5 !important;
+    border-color: #039be5 !important;
 }
-button.gray {
+button.gray, button.default, button.secondary {
     color: #fff;
-    background-color: #6c757d;
-    border-color: #6c757d;
+    background-color: #b0bec5 !important;
+    border-color: #b0bec5 !important;
 }
 button.white {
     color: #333 !important;
     background-color: #fff !important; 
 }
-button.lightblue {
-    color: #000 !important;
-    background-color: #0dcaf0 !important;
-    border-color: #0dcaf0 !important;
-}
-button.yellow {
-    color: #000 !important;
-    background-color: #ffc107 !important;
-    border-color: #ffc107 !important;
-}
-button.red {
+button.primary {
     color: #fff !important;
-    background-color: #dc3545 !important;
-    border-color: #dc3545 !important;
+    background-color: #01579b !important;
+    border-color: #01579b !important;
 }
-button.green {
+button.yellow, button.warning {
+    color: #000 !important;
+    background-color: #f57f17 !important;
+    border-color: #f57f17 !important;
+}
+button.red, button.danger {
     color: #fff !important;
-    background-color: #198754;
-    border-color: #198754;
+    background-color: #dd2c00 !important;
+    border-color: #dd2c00 !important;
+}
+button.green, button.success {
+    color: #fff !important;
+    background-color: #2e7d32 !important;
+    border-color: #2e7d32 !important;
 }
 
 input:disabled, input[readonly] {
