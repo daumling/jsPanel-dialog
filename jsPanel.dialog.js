@@ -172,16 +172,22 @@ if (!jsPanel.dialog) {
 		 * @returns {string|null}
 		 */
 		async prompt(msg, preset = "", options = {}) {
-			msg = jsPanel.strToHtml(msg);
+			msg = this.helpers.getHTML(`<div>${msg}</div>`);
 			const div = document.createElement("div");
-			div.innerHTML = `<p>${msg}</p><input name="input" type="text" class="${this.css.promptInput}" value="${preset}"/>`;
+			if (msg instanceof DocumentFragment) {
+				for (let el = msg.firstChild; el; el = el.nextSibling)
+					div.append(msg);
+			}
+			else
+				div.append(msg);
+			const input = jsPanel.strToHtml(`<input name="input" type="text" class="${this.css.promptInput}" value="${preset}"/>`);
+			div.append(input.firstElementChild);
 			div.append(this.helpers.buttonBar(["OK", "Cancel"]));
-			msg.append(div);
 			options = Object.assign({
 				onclick_OK: panel => panel.dialog.value = panel.dialog.values.input,
 				onclick_Cancel: async panel => panel.dialog.value = null
 			}, options);
-			return await this.modal(msg, options);
+			return await this.modal(div, options);
 		},
 
 		helpers: {
@@ -242,6 +248,8 @@ if (!jsPanel.dialog) {
 						}
 						if (el)
 							html = el.cloneNode(true);
+						else
+							html = jsPanel.strToHtml("<span>" + html + "</span>");
 					}
 					catch (e) {
 						html = jsPanel.strToHtml(html.toString().trim());
