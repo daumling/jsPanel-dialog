@@ -66,9 +66,9 @@ restricted to dialog elements; you can set them at any HTML element, like an ima
 
 ## Event Handlers
 
-For each named element, the panel options can contain event handlers for click and/or input events. The name of the event handler begins with either `onclick_` or `oninput_`, followed by the name of the element to listen to. For the above text input with the name `user`, this would, for example, be `oninput_user`. The arguments are the jsPanel and the event.
+For each named element, the panel options can contain event handlers for click and/or input events. The name of the event handler begins with either `onclick_` or `oninput_`, followed by the name of the element to listen to. For the above text input with the name `user`, this would, for example, be `oninput_user`. The three arguments are the panel, the affected HTML elements, and the event.
 
-jsPanel's `callback` handler is fine to initialize the dialog. If, however, the handler needs to display a modal dialog, `callback` should not be used, because not everything is in place yet. Instead, use the new `oninitialize` handler. This handler is guaranteed to be called when everything has been set up.
+jsPanel's `callback` handler is fine to initialize the dialog. If, however, the handler needs to display a modal dialog, `callback` should not be used, because not everything is in place yet. Instead, use the new `oninitialize` handler. This handler is guaranteed to be called when everything has been set up. Its single argument is the panel.
 
 ## Modal Dialogs
 

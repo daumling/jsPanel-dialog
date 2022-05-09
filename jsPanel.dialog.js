@@ -409,7 +409,7 @@ if (!jsPanel.dialog) {
 					const name = el ? el.getAttribute("name") : "";
 					const cbName = `on${ev.type}_${name}`;
 					if (this.options[cbName])
-						jsPanel.processCallbacks(this, this.options[cbName], "every", ev);
+						jsPanel.processCallbacks(this, this.options[cbName], "every", el, ev);
 				}
 				else
 					el = ev.target;
