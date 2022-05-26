@@ -1,5 +1,3 @@
-"use strict";
-
 if (!jsPanel.dialog) {
 	jsPanel.dialog = {
 		version: '1.0.0',
@@ -9,6 +7,7 @@ if (!jsPanel.dialog) {
 			header: false,
 			position: {my:'center-top', at:'center-top', offsetY: 30},
 			contentSize: "auto",
+			onwindowresize: true,
 			closeOnEscape: false,
 			closeOnBackdrop: false,
 			oninitialize: []
@@ -62,7 +61,18 @@ if (!jsPanel.dialog) {
 				options.position = Object.assign({}, options.position);
 				options.position.offsetY = prev.options.position.offsetY + this.offsetY;
 			}
-
+			// Create a panel template with the right classes added
+			options.template = jsPanel.createPanelTemplate();
+			options.template.classList.add("jsPanel-dialog");
+			if (!(html instanceof DocumentFragment)) {
+				for (let cls of ["dialog-sm", "dialog-md", "dialog-lg", "dialog-xl"]) {
+					if (!html.classList.contains(cls))
+						continue;
+					html.classList.remove(cls);
+					options.template.classList.add(cls);
+					break;
+				}
+			}
 			// Make sure that the callback function is an array
 			if (!options.callback)
 				options.callback = [];
@@ -70,9 +80,6 @@ if (!jsPanel.dialog) {
 				options.callback = [options.callback];
 			options.callback.unshift(panel => {
 				panel.makeDialog();
-				// bug fix
-				if (options.contentSize === "auto")
-					panel.style.height = "auto";
 				if (this.helpers.all.length)
 					// Move a previous modal dialog into the background
 					this.helpers.all[0].classList.add("background");
@@ -83,6 +90,7 @@ if (!jsPanel.dialog) {
 					jsPanel.processCallbacks(ev.panel, ev.panel.options.oninitialize, "every");
 			}, { once: true });
 			const panel = jsPanel.modal.create(options);
+			panel.resize({height: 'auto'});
 			return new Promise(resolve => {
 				panel.options.onclosed.push(panel => {
 					this.helpers.all.shift();
@@ -345,11 +353,11 @@ if (!jsPanel.dialog) {
 			panel.close();
 	});
 
-	window.addEventListener("resize", ev => {
+/*	window.addEventListener("resize", ev => {
 		for (let panel of jsPanel.dialog.helpers.all)
 			panel.reposition();
 	});
-
+*/
 	jsPanel.extend({
 		/**
 		 * Extend any jsPanel to act as a dialog.
@@ -396,7 +404,6 @@ if (!jsPanel.dialog) {
 		 * read panel.dialog.value.
 		 */
 		makeDialog() {
-			this.classList.add("jsPanel-dialog");
 			this.dialog = {
 				elements: new jsPanelDialogElements(this),
 				values: new jsPanelDialogValues(this),

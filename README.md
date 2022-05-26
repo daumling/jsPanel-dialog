@@ -6,13 +6,15 @@ The extension works with the `name` attribute to recognize dialog elements. Unli
 
 The extension requires the `jsDialog.modal` extension in order to work with modal dialogs.
 
-## HTML To Display
+<span style="color:red; font-size: larger">This extension requires browsers that support ES6 (most modern browsers do). Internet Explorer, for example, is NOT supported!
+
+## HTML
 
 The extension accepts several different ways to speficy the HTML to display.
 
-### Nodes
+### Nodes or DocumentFragments
 
-Supply any node to display.
+Supply the node to display.
 
 ### CSS Selectors
 
@@ -24,7 +26,7 @@ The extension searches for a `template` element with the ID of "dialogs" (the de
 
 ### HTML Strings
 
-Finally, you can use HTML strings. The extension converts the string to HTML by calling `jsPanel.strToHtml()`.
+Finally, you can use HTML strings. The extension converts the string to a DocumentFragment by calling `jsPanel.strToHtml()`.
 
 ## Additional Properties
 
