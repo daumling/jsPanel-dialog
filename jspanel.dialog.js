@@ -61,15 +61,13 @@ if (!jsPanel.dialog) {
 				options.position = Object.assign({}, options.position);
 				options.position.offsetY = prev.options.position.offsetY + this.offsetY;
 			}
-			// Create a panel template with the right classes added
-			options.template = jsPanel.createPanelTemplate();
-			options.template.classList.add("jsPanel-dialog");
+			options.css = { panel: "jsPanel-dialog" };
 			if (!(html instanceof DocumentFragment)) {
 				for (let cls of ["dialog-sm", "dialog-md", "dialog-lg", "dialog-xl"]) {
 					if (!html.classList.contains(cls))
 						continue;
 					html.classList.remove(cls);
-					options.template.classList.add(cls);
+					options.css.panel += " " + cls;
 					break;
 				}
 			}

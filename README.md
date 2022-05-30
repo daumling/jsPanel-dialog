@@ -182,11 +182,11 @@ A read-only property that reports the number of currently open modal dialogs.
 
 `panel.makeDialog()`
 
-Adds dialog functionality to any jsPanel. Scans the content for named elements, and creates and attaches the  `dialog` object to the panel. Overwrites the `closeOnEscape` option with a custom function. Finally, defines event handlers for `click`, `dblclick` and `input` events and attaches them to the panel.
+Add dialog functionality to any jsPanel. Scans the content for named elements, and creates and attaches the `dialog` object to the panel. Overwrites the `closeOnEscape` option with a custom function. Finally, defines event handlers for `click`, `dblclick` and `input` events and attaches them to the panel.
 
 `async jsPanel.dialog.modal(html, options)`
 
-Create and display a modal dialog. The `html` parameter is either a `Node`, or a text string. If the text string is a CSS selector, the method first searches for that selector within a `<template id="dialogs">` element, if present. If not found, the method searches the HTML content for a selector. In all cases, the HTML is deep-cloned, because dialogs may appear more than once. If the parameter is not a selector, the method attempts to convert the string to HTML if possible. The HTML's CSS attribute `display` is set to "" to force display of the HTML.
+Create and display a modal dialog. The `html` parameter is either a `Node`, a `DocumentFragment`, or a string. If the string is a CSS selector, the method first searches for that selector within a `<template id="dialogs">` element, if present (the ID can be changed in the default, see above). If not found, the method searches the HTML content for a selector. In all cases, the HTML is deep-cloned, because dialogs may appear more than once. If the parameter is not a selector, the method attempts to convert the string to HTML if possible. The HTML's CSS attribute `display` is set to "" to force display of the HTML.
 
 The options may contain additional callback handlers for `click` and `input` events as described above. Also, it may contain a function `oninitialize` that is called well after the dialog has been set up, and when it is safe to display other modal dialogs like alerts etc.
 
