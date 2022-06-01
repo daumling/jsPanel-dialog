@@ -18,6 +18,14 @@
             font-size: smaller;
             color: red;
         }
+        input[type="text"], input[type="password"] {
+            padding: 10px;
+        }
+        button {
+            padding: 5px 10px;
+            border-radius: 4px;
+            border-style: solid;
+        }
         button:disabled {
             cursor: not-allowed;
             pointer-events: none;
@@ -30,6 +38,7 @@
     <template id="dialogs">
         <div id="logon" class="dialog-sm">
             <h2>Please Log On</h2>
+            <p>(Use "admin" and "admin123")</p>
             User name:
             <input type="text" name="user" placeholder="Letters and digits only" />
             <br/>
@@ -51,6 +60,9 @@
         </div>
     </template>
     <script>
+        // Use this theme
+        const theme = {theme: 'dark filleddark', border: '1px solid gray', borderRadius: '.5rem'};
+
         function check(panel) {
             // Check if the username is alphanumeric and the
             // password contains at least a letter and a digit.
@@ -67,7 +79,7 @@
             return (data.user =="admin" && data.pass == "admin123");
         }
         async function logon() {
-            const ok = await jsPanel.dialog.modal("#logon", {
+            const ok = await jsPanel.dialog.modal("#logon", Object.assign({}, theme, {
                 oninput_user: panel => check(panel),
                 oninput_pass: panel => check(panel),
                 onclick_info: panel => jsPanel.dialog.alert("#moreinfo"),
@@ -80,9 +92,14 @@
                     panel.dialog.elements.message.style.display = "";
                     panel.dialog.value = false;
                 }
-            });
+            , }));
             if (ok)
-               await jsPanel.dialog.confirm("You logged on successfully. Did you like it?");
+                // Add a "Maybe" button to the Confirm dialog
+                await jsPanel.dialog.confirm("You logged on successfully. Did you like it?", false, 
+                [{
+                    label: "Maybe",
+                    css: "yellow"
+                }], theme);
         }
         document.addEventListener("DOMContentLoaded", ev => logon());
     </script>

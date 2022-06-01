@@ -6,11 +6,11 @@ The extension works with the `name` attribute to recognize dialog elements. Unli
 
 The extension requires the `jsDialog.modal` extension in order to work with modal dialogs.
 
-<span style="color:red; font-size: larger">This extension requires browsers that support ES6 (most modern browsers do). Internet Explorer, for example, is NOT supported!
+**This extension requires browsers that support ES6 (most modern browsers do). Internet Explorer, for example, is NOT supported!**
 
 ## HTML
 
-The extension accepts several different ways to speficy the HTML to display.
+The extension accepts several different ways to specify the HTML to display.
 
 ### Nodes or DocumentFragments
 
@@ -18,11 +18,11 @@ Supply the node to display.
 
 ### CSS Selectors
 
-Supply the CSS selector of the HTML to display. This approach has two limitations. First, you should refrain from using IDs, because the extension deep-clones the HTML, thus creating multiple IDs with the same name. Second, the HTML should be initially invisible by adding `style="display:none"` to the dialog element.
+Supply the CSS selector of the HTML to display. This approach has two limitations. First, you should refrain from using IDs, because the extension deep-clones the HTML, thus creating multiple IDs with the same name. Second, the HTML should be initially invisible by adding `style="display:none"` to the dialog `<div>`.
 
 ### CSS Selectors inside a "template" Element
 
-The extension searches for a `template` element with the ID of "dialogs" (the default ID can be changed, see below). If the dialog HTML is found within that template tag, it is deep-cloned into the main DOM. This lets you use IDs if necessary. This is the first approach; if there is no `template` element with an ID of "dialogs", of the selector is not part of that element, the search is repeated in the main DOM.
+The extension searches for a `<template>` element with the ID of "dialogs" (this default ID can be changed, see below). If the dialog HTML is found within that template tag, it is deep-cloned into the main DOM. This lets you use IDs if necessary. This is the first approach; if there is no `template` element with an ID of "dialogs", of the selector is not part of that element, the search is repeated in the main DOM.
 
 ### HTML Strings
 
@@ -89,7 +89,7 @@ The extension offers a few classes to be applied to dialogs to control their wid
 
 All dialogs are limited to a height of 90% screen minus their initial vertical offset, with an automatic vertical scroll bar.
 
-The classes offer limited reponsive functionality, limiting their width to 90% screen, depending on the screen width.
+The classes offer limited responsive functionality, limiting their width to 90% of the screen width.
 
 ## Other CSS
 
@@ -125,24 +125,24 @@ A simple yes/no/cancel dialog whose value is either "YES", "NO", or "CANCEL". No
     <div class="buttonbar">
         <button data-dismiss value="YES">Yes</button>
         <button data-dismiss data-cancel value="NO">No</button>
-        <button data-dismiss value="CANCEL">Cancel</button>
+        <button data-dismiss value="CANCEL" class="yellow">Cancel</button>
     <div>
 </div>
 ```
 
 ```javascript
-// YES/NO/CANCEL
+// result is YES/NO/CANCEL
 let result = await jsPanel.dialog.modal(".simple-confirm");
 ```
 
-You could even use `alert()` for the same functionality:
+You could even use `alert()` for the same functionality (made the last button yellow for a change):
 
 ```javascript
 let result = await jsPanel.dialog.alert("You are about to exit! Continue?", [
     { label: "Yes", value: "YES" },
     { label: "No", value: "NO" },
-    { label: "Cancel", value: "CANCEL" }
-]});
+    { label: "Cancel", value: "CANCEL", css: "yellow" }
+]);
 ```
 
 Here is a static version of the `prompt()` function, which returns either the entered text or `null`:
@@ -161,7 +161,9 @@ Here is a static version of the `prompt()` function, which returns either the en
 ```javascript
 // text or null
 let result = await jsPanel.dialog.modal(".simple-prompt", {
+    // use the value of the input field as dialog value
     onclick_ok: panel => panel.dialog.value = panel.dialog.values.input,
+    // use null as the dialog value
     onclick_cancel: panel => panel.dialog.value = null
 });
 ```

@@ -62,14 +62,12 @@ if (!jsPanel.dialog) {
 				options.position.offsetY = prev.options.position.offsetY + this.offsetY;
 			}
 			options.css = { panel: "jsPanel-dialog" };
-			if (!(html instanceof DocumentFragment)) {
-				for (let cls of ["dialog-sm", "dialog-md", "dialog-lg", "dialog-xl"]) {
-					if (!html.classList.contains(cls))
-						continue;
-					html.classList.remove(cls);
-					options.css.panel += " " + cls;
-					break;
-				}
+			for (let cls of ["dialog-sm", "dialog-md", "dialog-lg", "dialog-xl"]) {
+				if (!html.classList.contains(cls))
+					continue;
+				html.classList.remove(cls);
+				options.css.panel += " " + cls;
+				break;
 			}
 			// Make sure that the callback function is an array
 			if (!options.callback)
@@ -260,6 +258,13 @@ if (!jsPanel.dialog) {
 					catch (e) {
 						html = jsPanel.strToHtml(html.toString().trim());
 					}
+				}
+				if (html instanceof DocumentFragment) {
+					// convert a DocumentFragment to a div, because the former cannot have CSS
+					let div = document.createElement("div");
+					for (let node of html.childNodes)
+						div.append(node);
+					return div;
 				}
 				if (html instanceof HTMLElement)
 					// ensure its visibility
