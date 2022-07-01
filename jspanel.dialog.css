@@ -14,6 +14,8 @@
       -ms-flex-direction: column;
           flex-direction: column;
   overflow: hidden;
+  /* Add some padding to the dialog content */
+  padding: 1rem;
 }
 
 .jsPanel-dialog .buttonbar {
@@ -31,11 +33,6 @@
 
 .jsPanel-dialog .buttonbar button {
   margin-left: 0.5rem;
-}
-
-/* Add some padding to the dialog content */
-.jsPanel-content {
-  padding: 1rem;
 }
 
 /* Modals in the background are partly transparent */
