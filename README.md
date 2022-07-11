@@ -203,15 +203,15 @@ Display an alert box. The `html` and `options` parameters are passed on to the `
 - `name` - the value of the button's `name` atribute for callbacks (optional)
 - `css` - anny CSS classes that the button should have.
 
-If only a text is supplied, the first button receives the class name(s) stored in `defaults.css.primaryBtn`, and all other buttons receive the class name(s) stored in `defaults.css.otherBtn`. Either the signel button, or the second button also receives the attribute `data-cancel` to make it respond to the Escape key.
+If only a text is supplied, the first button receives the class name(s) stored in `defaults.css.primaryBtn`, and all other buttons receive the class name(s) stored in `defaults.css.otherBtn`. Either the single button, or the second button also receives the attribute `data-cancel` to make it respond to the Escape key.
 
-The return value is the value of the clicked button, if any.
+The return value is the value of the clicked button, if any. If the definition of the clicked button does not have a "value" property, the return value is undefined.
 
 `async jsPanel.dialog.confirm(html, no = false, moreButtons = [], options = {})`
 
 Display an alert box with "Yes" and "No" buttons. The `html` and `options` parameters are passed on to the `modal()` method. If set to *true*, the `no` parameter sets the fdefault button to "No" instead of "Yes". The `moreButtons` parameter is an array of button names, or objects that describe each button, which are added to these two buttons. Internally, the method calls `alert()`.
 
-The return value is either "YES" or "NO", or any of the values defined by the additional buttons.
+The return value is true or false, or the "value" property of any additional button that has been clicked.
 
 `async jsPanel.dialog.prompt(html, preset = "", options = {})`
 
